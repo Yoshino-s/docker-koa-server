@@ -1,0 +1,10 @@
+node_modules
+
+mysql/*
+redis/data/*
+
+yarn-error.log
+yarn.lock
+m.ts
+
+src/config/secret.config.ts

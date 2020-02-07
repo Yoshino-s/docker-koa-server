@@ -1,0 +1,38 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: web
+    restart: always
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    links:
+      - redis
+      - db
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    command: redis-server /usr/local/etc/redis/redis.conf
+    expose: 
+      - 6379
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+  db:
+    image: "mariadb:latest"
+    container_name: db
+    restart: always
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: TEST
+    volumes:
+      - ./mysql:/var/lib/mysql
